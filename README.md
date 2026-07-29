@@ -107,6 +107,11 @@ The body supports:
 - fenced code blocks
 - inline code
 - markdown links
+- images, via `![alt](/assets/name.png)`
+- `**bold**` and `*italic*`, including italics nested inside bold
+
+Emphasis uses `*`, not `_`. Underscores are left alone, so `snake_case_names` in prose
+render literally.
 
 You can also apply a class to the previous paragraph by adding a line like:
 
