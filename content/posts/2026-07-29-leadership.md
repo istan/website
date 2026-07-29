@@ -86,4 +86,4 @@ Conversely, be judicious when voicing FUD about another team's nascent work, les
 
 It can be quite crushing when someone you've hired and invested in (and have built plans around) decides to leave. **Don't take it personally! Everyone leaves eventually (and so will you) so do your best to understand why, wish them well, and then move on.**
 
-When it's your turn to leave, think long and hard about how you want to do it. Recency bias is a real thing and how you depart will carry heavy weight in people's memory and opinion of you.
+When it's your turn to leave, think long and hard about how you want to do it. Recency bias is a real thing and how you depart will carry heavy weight in people's memory and opinion of you. This is true in all roles but is especially true for managers where departures can have broad impact.
