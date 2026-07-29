@@ -8,7 +8,11 @@ A minimal personal website with markdown posts and no CMS.
 - `content/index.md` is the homepage copy.
 - `content/contact.md` is the contact page.
 - `content/posts/*.md` are blog posts.
+- `static/` is copied verbatim to `dist/assets/` (stylesheet, images).
 - `build.py` renders everything into `dist/` and auto-discovers top-level pages from `content/*.md`.
+
+`dist/` is generated and git-ignored — every build wipes and recreates it, so never
+edit anything in there by hand.
 
 ## Routing and navigation
 
@@ -173,8 +177,20 @@ python3 -m http.server 8000 --directory dist
 
 Then open `http://localhost:8000`.
 
+The server only reads `dist/`, so it serves whatever the last build produced. After
+editing anything in `content/`, re-run `python3 build.py` and reload. If a page starts
+404ing after an edit, it usually means the slug moved — see
+[Keeping old URLs alive](#keeping-old-urls-alive).
+
 ## Publish
 
-Upload the contents of `dist/` to any static host.
+Pushing to `main` publishes the site. `.github/workflows/pages.yml` runs `build.py`
+on GitHub Actions and deploys `dist/` to GitHub Pages, so there is nothing to upload
+by hand and no build output to commit. The workflow can also be triggered manually
+from the Actions tab.
 
-If you use GitHub Pages, Netlify, Cloudflare Pages, or a similar service, point `ianmccrystal.com` at that host and publish the generated output directory. The build also creates a `CNAME` file automatically.
+The build writes a `CNAME` file from `site.toml`, which is what points
+`ianmccrystal.com` at Pages.
+
+To host somewhere else instead (Netlify, Cloudflare Pages, or any static host), run
+`python3 build.py` and serve the contents of `dist/`.
