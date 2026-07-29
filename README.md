@@ -38,6 +38,9 @@ Posts live in `content/posts/`.
 - The post URL defaults to a slugified version of the post title.
 - You can override that by setting `slug` in the post front matter.
 
+Pinning a `slug` is worth doing on anything you've shared, because otherwise editing
+the title silently moves the post's URL. See [Keeping old URLs alive](#keeping-old-urls-alive).
+
 Example:
 
 ```toml
@@ -50,6 +53,40 @@ summary = "A one-line description for the archive page."
 ```
 
 That post renders at `/posts/the-world-needs-100x-more-apis/`.
+
+### Keeping old URLs alive
+
+Changing a slug (or a title, when no slug is pinned) changes the URL, and the old
+one starts returning a 404. To keep it working, list the old slug under `redirects`:
+
+```toml
++++
+title = "Space to cook: notes on engineering leadership"
+date = "2026-07-29"
+slug = "notes-on-engineering-leadership"
+redirects = ["space-to-cook-notes-on-engineering-leadership"]
++++
+```
+
+`/posts/space-to-cook-notes-on-engineering-leadership/` now forwards to
+`/posts/notes-on-engineering-leadership/`.
+
+- Works on both posts and top-level pages. Post redirects are relative to
+  `/posts/`, page redirects to the site root.
+- Accepts a single string or a list, so you can accumulate old slugs over time.
+- Entries must be lowercase letters, numbers, dashes, and underscores, optionally
+  separated by `/` for a nested path. Surrounding slashes are optional, so
+  `old-slug` and `/old-slug/` are equivalent. Anything else (spaces, capitals, `..`)
+  fails the build.
+- Each redirect builds a small stub page that forwards via `<meta http-equiv="refresh">`
+  and `window.location.replace()`, and carries `rel="canonical"` plus `noindex` so
+  search engines consolidate on the new URL. Stubs are left out of the sitemap.
+- The build fails if a redirect would shadow a real page, or if two files claim the
+  same redirect, rather than silently overwriting one with the other.
+
+GitHub Pages serves only static files and cannot issue a real `301`, so these are
+client-side redirects. Search engines treat a `0`-second meta refresh as a permanent
+redirect, but the response status is still `200`.
 
 ### How the nav is built
 
@@ -76,8 +113,8 @@ To rename a page in the nav:
 
 To change the page URL:
 
-1. Rename the file in `content/`, or
-2. Add/update the `slug` in front matter
+1. Rename the file in `content/`, or add/update the `slug` in front matter
+2. Add the *old* slug to `redirects` so existing links keep working
 3. Rebuild the site
 
 ### Sitemap behavior

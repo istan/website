@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import html
+import json
 import re
 import shutil
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
 from typing import Iterable
@@ -17,6 +18,10 @@ STATIC_DIR = ROOT / "static"
 OUTPUT_DIR = ROOT / "dist"
 SITE_CONFIG_PATH = ROOT / "site.toml"
 
+# Redirect slugs become directories under dist/, so keep them to plain path
+# segments — no '..', no absolute paths, nothing that escapes the output tree.
+REDIRECT_SLUG_PATTERN = re.compile(r"[a-z0-9_-]+(?:/[a-z0-9_-]+)*")
+
 
 @dataclass
 class Page:
@@ -27,6 +32,7 @@ class Page:
     description: str = ""
     image_path: str = ""
     image_alt: str = ""
+    redirects: list[str] = field(default_factory=list)
 
     @property
     def current_path(self) -> str:
@@ -35,6 +41,9 @@ class Page:
     @property
     def output_path(self) -> str:
         return "index.html" if self.slug == "" else f"{self.slug}/index.html"
+
+    def redirect_paths(self) -> list[str]:
+        return [f"/{slug}/" for slug in self.redirects]
 
 
 @dataclass
@@ -45,6 +54,14 @@ class Post:
     published_on: date
     summary: str
     body: str
+    redirects: list[str] = field(default_factory=list)
+
+    @property
+    def current_path(self) -> str:
+        return f"/posts/{self.slug}/"
+
+    def redirect_paths(self) -> list[str]:
+        return [f"/posts/{slug}/" for slug in self.redirects]
 
 
 def load_site_config() -> dict:
@@ -66,6 +83,33 @@ def parse_content_file(path: Path) -> tuple[dict, str]:
 def slugify(value: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
     return normalized or "post"
+
+
+def load_redirect_slugs(metadata: dict, source_path: Path) -> list[str]:
+    raw = metadata.get("redirects", [])
+    if isinstance(raw, str):
+        raw = [raw]
+    if not isinstance(raw, list):
+        raise ValueError(
+            f"{source_path}: 'redirects' must be a string or a list of strings"
+        )
+
+    slugs: list[str] = []
+    for entry in raw:
+        if not isinstance(entry, str):
+            raise ValueError(f"{source_path}: every 'redirects' entry must be a string")
+        slug = entry.strip().strip("/")
+        if not slug:
+            raise ValueError(f"{source_path}: 'redirects' entries cannot be empty")
+        if not REDIRECT_SLUG_PATTERN.fullmatch(slug):
+            raise ValueError(
+                f"{source_path}: redirect '{entry}' is not a valid path — use "
+                "lowercase letters, numbers, dashes, and underscores, optionally "
+                "separated by '/'"
+            )
+        if slug not in slugs:
+            slugs.append(slug)
+    return slugs
 
 
 def render_inline(text: str) -> str:
@@ -226,6 +270,7 @@ def load_page(path: Path) -> Page:
         description=metadata.get("description", ""),
         image_path=metadata.get("image", ""),
         image_alt=metadata.get("image_alt", ""),
+        redirects=load_redirect_slugs(metadata, path),
     )
 
 
@@ -249,6 +294,7 @@ def load_posts() -> list[Post]:
                 published_on=published_on,
                 summary=metadata.get("summary", ""),
                 body=body,
+                redirects=load_redirect_slugs(metadata, path),
             )
         )
     posts.sort(key=lambda post: post.published_on, reverse=True)
@@ -379,6 +425,56 @@ def render_writing_index(posts: Iterable[Post]) -> str:
 """.strip()
 
 
+def render_redirect(*, site: dict, target_path: str) -> str:
+    href = html.escape(target_path, quote=True)
+    target_url = html.escape(site["url"] + target_path, quote=True)
+    script_target = json.dumps(target_path).replace("<", "\\u003c")
+    return f"""<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting</title>
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0; url={href}">
+    <link rel="canonical" href="{target_url}">
+    <script>window.location.replace({script_target});</script>
+  </head>
+  <body>
+    <p>This page has moved to <a href="{href}">{target_url}</a>.</p>
+  </body>
+</html>
+"""
+
+
+def resolve_redirects(pages: list[Page], posts: list[Post]) -> list[tuple[str, str]]:
+    """Pair every redirect path with its destination, rejecting conflicts.
+
+    Redirect stubs are written into the same output tree as real pages, so a
+    redirect that shadows live content would silently clobber it. Fail loudly
+    instead.
+    """
+    live: dict[str, str] = {"/writing/": "the generated writing index"}
+    for item in [*pages, *posts]:
+        live[item.current_path] = str(item.source_path.relative_to(ROOT))
+
+    claimed: dict[str, tuple[str, str]] = {}
+    for item in [*pages, *posts]:
+        source = str(item.source_path.relative_to(ROOT))
+        for path in item.redirect_paths():
+            if path in live:
+                raise ValueError(
+                    f"{source}: redirect '{path}' collides with live content from "
+                    f"{live[path]}"
+                )
+            if path in claimed:
+                raise ValueError(
+                    f"{source}: redirect '{path}' is already claimed by "
+                    f"{claimed[path][1]}"
+                )
+            claimed[path] = (item.current_path, source)
+    return [(path, target) for path, (target, _) in sorted(claimed.items())]
+
+
 def write_output(relative_path: str, content: str) -> None:
     destination = OUTPUT_DIR / relative_path
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -389,6 +485,7 @@ def build() -> None:
     site = load_site_config()
     pages = load_pages()
     posts = load_posts()
+    redirects = resolve_redirects(pages, posts)
 
     if OUTPUT_DIR.exists():
         shutil.rmtree(OUTPUT_DIR)
@@ -426,6 +523,12 @@ def build() -> None:
             content=render_post_body(post),
         )
         write_output(f"posts/{post.slug}/index.html", post_html)
+
+    for redirect_path, target_path in redirects:
+        write_output(
+            f"{redirect_path.strip('/')}/index.html",
+            render_redirect(site=site, target_path=target_path),
+        )
 
     write_output("CNAME", f"{site['domain']}\n")
     write_output(
