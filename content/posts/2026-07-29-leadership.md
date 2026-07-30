@@ -90,5 +90,5 @@ When it's your turn to leave, think long and hard about how you want to do it. R
 
 ### Make sure the "good old days" are in fact good
 
-If you've been somewhere a long time you'll probably remember the early days with a certain nostalgia: things were simpler then, the eggs were hot, everything was exciting and new. It's a nice feeling to have. For the newer folks on your team the "good old days" are happening right now! It's your job to make sure they stick around long enough to look back on these days with nostalgia, so do what you can to make sure they are, in fact, good. (HT [ksun](https://x.com/KathyXSun) for putting this idea in my head.) 
+If you've been somewhere a long time you'll probably remember the early days with a certain nostalgia: things were simpler then, the eggs were hot, everything was exciting and new. It's a nice feeling to have. For the newer folks on your team the "good old days" are happening right now! It's your job to make sure they stick around long enough to look back on these days with similar nostalgia, so do what you can to make sure they are, in fact, good. (HT [ksun](https://x.com/KathyXSun) for putting this idea in my head.) 
 
