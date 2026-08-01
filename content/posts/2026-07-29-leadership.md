@@ -15,7 +15,7 @@ people”, etc, since these can be read in countless management books and blogs.
 
 At my last job we would say, "Users > Stripe > Team > Me."
 
-I quite liked this because it is simple, easy to remember, and gets the point across: we're here to serve our users first and ourselves last, and just about every decision we make as teams or as individuals can be guided by or checked against that hierarchy: Am I optimizing for my team at the expense of our users? Rethink it. Am I putting myself before my team? Rethink it.
+I quite liked this because it is simple, easy to remember, and gets the point across: we're here to serve our users first and ourselves last, and just about every decision we make as teams or individuals can be guided by or checked against that hierarchy: Am I optimizing for my team at the expense of our users? Rethink it. Am I putting myself before my team? Rethink it.
 
 Having an agreed upon hierarchy of "things we care about and in what order" makes every decision easier and makes it more likely that, in any situation, people do the right thing. 
 
@@ -27,7 +27,7 @@ You can be hired or promoted into a "leadership role" but whether or not you're 
 
 Some of the most effective leaders I've worked with were individual contributors (non people managers) who took on the behaviors of leadership (either because there was a gap or because they were asked to). They did the things that made others want to follow them, and it didn't matter what their title was.
 
-If you want to be the leader (appointed or otherwise), you have to act the part.
+If you want to be the leader (appointed or otherwise), you have to own it and act the part.
 
 ### You must have a point of view
 
@@ -66,7 +66,7 @@ The manager should be removed.
 this is a gradient but you get the point.
 
 Sometimes you have to trade off being liked for output. This is fine, as long as the team
-respects your judgement (which means you should try to be right more often than you’re wrong). At the end of the day, make sure you know where you stand.
+respects your judgement (which means you should try to be right more often than you’re wrong). If you aren't willing to do that it's easy to slip into #3. At the end of the day, make sure you know where you stand.
 
 One very cool thing about being a manager is all the ways in which you get to help people, often without them knowing it: fighting for an up level, amplifying their work, correcting some misunderstanding, suggesting them for new opportunities, etc. So much of your work will happen behind the scenes and you won’t get credit for a lot of it (especially from the people you’re quietly helping), but it is very rewarding to see it compound over years.
 
@@ -90,5 +90,4 @@ When it's your turn to leave, think long and hard about how you want to do it. R
 
 ### Make sure the "good old days" are in fact good
 
-If you've been somewhere a long time you'll probably remember the early days with a certain nostalgia: things were simpler then, the eggs were hot, everything was exciting and new. It's a nice feeling to have. For the newer folks on your team the "good old days" are happening right now! It's your job to make sure they stick around long enough to look back on these days with similar nostalgia, so do what you can to make sure they are, in fact, good. (HT [ksun](https://x.com/KathyXSun) for putting this idea in my head.) 
-
+If you've been somewhere a long time you'll probably remember the early days with a certain nostalgia: things were simpler then, the eggs were hot, everything was exciting and new. It's a nice feeling to have, but don't reminisce too much infront of new team members. They don't need to hear how they missed out on your good times. For them, the "good old days" are happening *right now*! It's your job to make sure they stick around long enough to look back on these days with similar nostalgia, so do what you can to make sure they are, in fact, good. (HT [ksun](https://x.com/KathyXSun) for putting this idea in my head.)
