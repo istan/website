@@ -2,7 +2,7 @@
 title = "Space to cook: notes on engineering leadership"
 date = "2026-07-29"
 summary = "Learnings from leading and building teams at Stripe"
-image = "/assets/space-to-cook.jpg"
+image = "/assets/space-to-cook-social-preview-1200x630.jpg"
 image_alt = "A sunlit kitchen counter with a cutting board, herbs, and a pot on the stove"
 slug = "notes-on-engineering-leadership"
 redirects = ["space-to-cook-notes-on-engineering-leadership", "herp-derp-lol"]
