@@ -332,6 +332,9 @@ def site_shell(
     <title>{html.escape(page_title)}</title>
     <meta name="description" content="{html.escape(summary, quote=True)}">
     <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
     <link rel="canonical" href="{html.escape(site['url'] + current_path, quote=True)}">
   </head>
   <body>

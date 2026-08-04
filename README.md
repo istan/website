@@ -8,7 +8,7 @@ A minimal personal website with markdown posts and no CMS.
 - `content/index.md` is the homepage copy.
 - `content/contact.md` is the contact page.
 - `content/posts/*.md` are blog posts.
-- `static/` is copied verbatim to `dist/assets/` (stylesheet, images).
+- `static/` is copied verbatim to `dist/assets/` (stylesheet, images, favicons).
 - `build.py` renders everything into `dist/` and auto-discovers top-level pages from `content/*.md`.
 
 `dist/` is generated and git-ignored — every build wipes and recreates it, so never
@@ -120,6 +120,35 @@ To change the page URL:
 1. Rename the file in `content/`, or add/update the `slug` in front matter
 2. Add the *old* slug to `redirects` so existing links keep working
 3. Rebuild the site
+
+### Favicon
+
+The favicon is the 🧑🏼 emoji, rendered to PNG and committed under `static/`:
+`favicon-32.png`, `favicon-16.png`, and `apple-touch-icon.png` (180px). `build.py`
+links all three from every page's `<head>`.
+
+They are baked images rather than an emoji in an SVG, so the icon looks the same on
+every platform instead of picking up each OS's emoji font. To regenerate or swap the
+emoji, render it in a headless browser (the system emoji font does the drawing) and
+resize:
+
+```bash
+cat > /tmp/icon.html <<'HTML'
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+html,body{margin:0;padding:0;width:512px;height:512px;background:transparent;}
+body{display:flex;align-items:center;justify-content:center;}
+span{font-family:"Apple Color Emoji";font-size:432px;line-height:1;}
+</style></head><body><span>&#x1F9D1;&#x1F3FC;</span></body></html>
+HTML
+
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
+  --screenshot=/tmp/icon.png --window-size=512,512 \
+  --default-background-color=00000000 --hide-scrollbars file:///tmp/icon.html
+
+sips -Z 180 /tmp/icon.png --out static/apple-touch-icon.png
+sips -Z 32  /tmp/icon.png --out static/favicon-32.png
+sips -Z 16  /tmp/icon.png --out static/favicon-16.png
+```
 
 ### Sitemap behavior
 
