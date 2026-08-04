@@ -54,6 +54,8 @@ class Post:
     published_on: date
     summary: str
     body: str
+    image_path: str = ""
+    image_alt: str = ""
     redirects: list[str] = field(default_factory=list)
 
     @property
@@ -294,6 +296,8 @@ def load_posts() -> list[Post]:
                 published_on=published_on,
                 summary=metadata.get("summary", ""),
                 body=body,
+                image_path=metadata.get("image", ""),
+                image_alt=metadata.get("image_alt", ""),
                 redirects=load_redirect_slugs(metadata, path),
             )
         )
@@ -313,6 +317,91 @@ def nav_html(current_path: str, pages: list[Page]) -> str:
     return "\n".join(items)
 
 
+def image_dimensions(asset_path: str) -> tuple[int, int] | None:
+    """Read (width, height) from a PNG or JPEG header, or None if unreadable."""
+    if not asset_path.startswith("/assets/"):
+        return None
+    path = STATIC_DIR / asset_path[len("/assets/") :]
+    try:
+        data = path.read_bytes()
+    except OSError:
+        return None
+
+    if data[:8] == b"\x89PNG\r\n\x1a\n":
+        width = int.from_bytes(data[16:20], "big")
+        height = int.from_bytes(data[20:24], "big")
+        return (width, height) if width and height else None
+
+    if data[:2] == b"\xff\xd8":
+        i = 2
+        while i + 9 < len(data) and data[i] == 0xFF:
+            marker, size = data[i + 1], int.from_bytes(data[i + 2 : i + 4], "big")
+            # Start-of-frame markers carry the dimensions; skip the rest.
+            if marker in {*range(0xC0, 0xC4), *range(0xC5, 0xC8), *range(0xC9, 0xCC)}:
+                height = int.from_bytes(data[i + 5 : i + 7], "big")
+                width = int.from_bytes(data[i + 7 : i + 9], "big")
+                return (width, height) if width and height else None
+            i += 2 + size
+    return None
+
+
+def twitter_card(image_path: str) -> str:
+    """Large cards crop to roughly 1.91:1, so only use one on a wide image."""
+    if not image_path:
+        return "summary"
+    size = image_dimensions(image_path)
+    if size is None:
+        return "summary_large_image"
+    width, height = size
+    return "summary_large_image" if width >= height * 1.4 else "summary"
+
+
+def social_tags(
+    *,
+    site: dict,
+    title: str,
+    summary: str,
+    current_path: str,
+    image_path: str,
+    image_alt: str,
+    kind: str,
+) -> str:
+    """Open Graph and Twitter card tags for link previews.
+
+    Scrapers do not resolve relative URLs, so every href here is absolute.
+    """
+    tags = [
+        ("og:type", kind),
+        ("og:site_name", site["name"]),
+        ("og:title", title),
+        ("og:description", summary),
+        ("og:url", site["url"] + current_path),
+    ]
+    if image_path:
+        tags.append(("og:image", site["url"] + image_path))
+        if image_alt:
+            tags.append(("og:image:alt", image_alt))
+
+    lines = [
+        f'<meta property="{name}" content="{html.escape(value, quote=True)}">'
+        for name, value in tags
+    ]
+    named = [
+        ("twitter:card", twitter_card(image_path)),
+        ("twitter:title", title),
+        ("twitter:description", summary),
+    ]
+    if image_path:
+        named.append(("twitter:image", site["url"] + image_path))
+        if image_alt:
+            named.append(("twitter:image:alt", image_alt))
+    lines.extend(
+        f'<meta name="{name}" content="{html.escape(value, quote=True)}">'
+        for name, value in named
+    )
+    return "\n    ".join(lines)
+
+
 def site_shell(
     *,
     site: dict,
@@ -321,9 +410,21 @@ def site_shell(
     description: str,
     current_path: str,
     content: str,
+    image_path: str = "",
+    image_alt: str = "",
+    kind: str = "website",
 ) -> str:
     page_title = title if title == site["name"] else f"{title} | {site['name']}"
     summary = description or site["description"]
+    social = social_tags(
+        site=site,
+        title=page_title,
+        summary=summary,
+        current_path=current_path,
+        image_path=image_path,
+        image_alt=image_alt,
+        kind=kind,
+    )
     return f"""<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -336,6 +437,7 @@ def site_shell(
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
     <link rel="canonical" href="{html.escape(site['url'] + current_path, quote=True)}">
+    {social}
   </head>
   <body>
     <div class="page">
@@ -503,6 +605,8 @@ def build() -> None:
             description=page.description,
             current_path=page.current_path,
             content=render_page_body(page, posts=posts if page.slug == "" else None),
+            image_path=page.image_path,
+            image_alt=page.image_alt,
         )
         write_output(page.output_path, page_html)
 
@@ -522,8 +626,11 @@ def build() -> None:
             pages=pages,
             title=post.title,
             description=post.summary,
-            current_path=f"/posts/{post.slug}/",
+            current_path=post.current_path,
             content=render_post_body(post),
+            image_path=post.image_path,
+            image_alt=post.image_alt,
+            kind="article",
         )
         write_output(f"posts/{post.slug}/index.html", post_html)
 

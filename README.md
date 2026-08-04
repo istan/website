@@ -121,6 +121,43 @@ To change the page URL:
 2. Add the *old* slug to `redirects` so existing links keep working
 3. Rebuild the site
 
+### Link previews
+
+Every page emits Open Graph and Twitter card tags, so posts shared to LinkedIn,
+Twitter/X, Slack, iMessage, and similar get a title, description, and image. Set the
+image per post or page with `image` and `image_alt`:
+
+```toml
++++
+title = "Space to cook: notes on engineering leadership"
+image = "/assets/space-to-cook.jpg"
+image_alt = "A sunlit kitchen counter with a cutting board, herbs, and a pot on the stove"
++++
+```
+
+- The description falls back to `summary` on posts, `description` on pages, and then
+  the site description in `site.toml`.
+- Scrapers do not resolve relative URLs, so `build.py` makes every image and URL
+  absolute using `url` from `site.toml`.
+- Posts are tagged `og:type=article`, everything else `website`.
+- The Twitter card type is chosen from the image's real dimensions: wide images get
+  `summary_large_image`, tall or square ones get `summary`, since a large card crops
+  to roughly 1.91:1 and would slice a band out of a portrait photo. Pages with no
+  image get `summary`.
+
+Preview images work best at 1200x630. To prepare one:
+
+```bash
+sips -c 821 1568 source.png --out /tmp/crop.png   # centre-crop to 1.91:1
+sips -z 630 1200 /tmp/crop.png --out /tmp/og.png
+sips -s format jpeg -s formatOptions 82 /tmp/og.png --out static/name.jpg
+```
+
+Both networks cache aggressively. After changing an image, re-scrape it with the
+[LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) or
+[Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) rather than
+waiting for the cache to expire.
+
 ### Favicon
 
 The favicon is the 🧑🏼 emoji, rendered to PNG and committed under `static/`:
