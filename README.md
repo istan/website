@@ -140,6 +140,9 @@ image_alt = "A sunlit kitchen counter with a cutting board, herbs, and a pot on 
 - Scrapers do not resolve relative URLs, so `build.py` makes every image and URL
   absolute using `url` from `site.toml`.
 - Posts are tagged `og:type=article`, everything else `website`.
+- Redirect stubs carry their destination's title, description, and image. Scrapers
+  do not follow a meta refresh, so an old URL shared on LinkedIn or Slack is
+  previewed from the stub itself; without this it would unfurl blank.
 - The Twitter card type is chosen from the image's real dimensions: wide images get
   `summary_large_image`, tall or square ones get `summary`, since a large card crops
   to roughly 1.91:1 and would slice a band out of a portrait photo. Pages with no

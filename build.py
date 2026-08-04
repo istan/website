@@ -530,18 +530,47 @@ def render_writing_index(posts: Iterable[Post]) -> str:
 """.strip()
 
 
-def render_redirect(*, site: dict, target_path: str) -> str:
+def render_redirect(
+    *,
+    site: dict,
+    target_path: str,
+    title: str,
+    summary: str,
+    image_path: str,
+    image_alt: str,
+    kind: str,
+) -> str:
+    """A forwarding stub that still previews as the page it points at.
+
+    Social scrapers do not follow a meta refresh, so an old URL shared on
+    LinkedIn or Slack is previewed from this stub rather than the
+    destination. Carry the destination's metadata so those links still
+    unfurl with a title, description, and image.
+    """
     href = html.escape(target_path, quote=True)
     target_url = html.escape(site["url"] + target_path, quote=True)
     script_target = json.dumps(target_path).replace("<", "\\u003c")
+    page_title = title if title == site["name"] else f"{title} | {site['name']}"
+    social = social_tags(
+        site=site,
+        title=page_title,
+        summary=summary,
+        # Point previews at the destination, not at this stub.
+        current_path=target_path,
+        image_path=image_path,
+        image_alt=image_alt,
+        kind=kind,
+    )
     return f"""<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Redirecting</title>
+    <title>{html.escape(page_title)}</title>
+    <meta name="description" content="{html.escape(summary, quote=True)}">
     <meta name="robots" content="noindex">
     <meta http-equiv="refresh" content="0; url={href}">
     <link rel="canonical" href="{target_url}">
+    {social}
     <script>window.location.replace({script_target});</script>
   </head>
   <body>
@@ -551,7 +580,9 @@ def render_redirect(*, site: dict, target_path: str) -> str:
 """
 
 
-def resolve_redirects(pages: list[Page], posts: list[Post]) -> list[tuple[str, str]]:
+def resolve_redirects(
+    pages: list[Page], posts: list[Post]
+) -> list[tuple[str, Page | Post]]:
     """Pair every redirect path with its destination, rejecting conflicts.
 
     Redirect stubs are written into the same output tree as real pages, so a
@@ -562,7 +593,7 @@ def resolve_redirects(pages: list[Page], posts: list[Post]) -> list[tuple[str, s
     for item in [*pages, *posts]:
         live[item.current_path] = str(item.source_path.relative_to(ROOT))
 
-    claimed: dict[str, tuple[str, str]] = {}
+    claimed: dict[str, tuple[Page | Post, str]] = {}
     for item in [*pages, *posts]:
         source = str(item.source_path.relative_to(ROOT))
         for path in item.redirect_paths():
@@ -576,7 +607,7 @@ def resolve_redirects(pages: list[Page], posts: list[Post]) -> list[tuple[str, s
                     f"{source}: redirect '{path}' is already claimed by "
                     f"{claimed[path][1]}"
                 )
-            claimed[path] = (item.current_path, source)
+            claimed[path] = (item, source)
     return [(path, target) for path, (target, _) in sorted(claimed.items())]
 
 
@@ -634,10 +665,20 @@ def build() -> None:
         )
         write_output(f"posts/{post.slug}/index.html", post_html)
 
-    for redirect_path, target_path in redirects:
+    for redirect_path, target in redirects:
+        is_post = isinstance(target, Post)
         write_output(
             f"{redirect_path.strip('/')}/index.html",
-            render_redirect(site=site, target_path=target_path),
+            render_redirect(
+                site=site,
+                target_path=target.current_path,
+                title=target.title,
+                summary=(target.summary if is_post else target.description)
+                or site["description"],
+                image_path=target.image_path,
+                image_alt=target.image_alt,
+                kind="article" if is_post else "website",
+            ),
         )
 
     write_output("CNAME", f"{site['domain']}\n")
