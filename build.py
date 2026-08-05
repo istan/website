@@ -454,6 +454,71 @@ def site_shell(
         <p>{html.escape(site["footer"])}</p>
       </footer>
     </div>
+    <script>
+    (function () {{
+      var IMAGE_W = 1365, IMAGE_H = 2048;
+      var EYES = {{
+        left:  {{ x: 558 / IMAGE_W, y: 927 / IMAGE_H }},
+        right: {{ x: 778 / IMAGE_W, y: 930 / IMAGE_H }}
+      }};
+      var IRIS_SIZE = 32;
+      var MAX_MOVE = 1;
+      var wrap = document.querySelector(".headshot-wrap");
+      if (!wrap) return;
+      var pupils = wrap.querySelectorAll(".headshot-pupil");
+      if (!pupils.length || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+      function imgToFrac(ix, iy) {{
+        var rect = wrap.getBoundingClientRect();
+        var scale = Math.max(rect.width / IMAGE_W, rect.height / IMAGE_H);
+        var offX = (rect.width - IMAGE_W * scale) / 2;
+        var offY = (rect.height - IMAGE_H * scale) / 2;
+        return {{
+          fx: (ix * IMAGE_W * scale + offX) / rect.width,
+          fy: (iy * IMAGE_H * scale + offY) / rect.height
+        }};
+      }}
+
+      var base = {{}};
+      pupils.forEach(function (p) {{
+        var e = EYES[p.getAttribute("data-eye")];
+        if (!e) return;
+        var f = imgToFrac(e.x, e.y);
+        base[p.getAttribute("data-eye")] = f;
+        var rect = wrap.getBoundingClientRect();
+        var scale = Math.max(rect.width / IMAGE_W, rect.height / IMAGE_H);
+        p.style.width = (IRIS_SIZE * scale) + "px";
+        p.style.height = (IRIS_SIZE * scale) + "px";
+        p.style.left = (f.fx * 100) + "%";
+        p.style.top = (f.fy * 100) + "%";
+      }});
+
+      function mouseMove(ev) {{
+        var r = wrap.getBoundingClientRect();
+        pupils.forEach(function (p) {{
+          var e = base[p.getAttribute("data-eye")];
+          if (!e) return;
+          var dx = ev.clientX - (r.left + e.fx * r.width);
+          var dy = ev.clientY - (r.top + e.fy * r.height);
+          var len = Math.hypot(dx, dy) || 1;
+          var t = Math.min(1, MAX_MOVE / len);
+          p.style.translate = (dx * t) + "px " + (dy * t) + "px";
+        }});
+      }}
+      function mouseLeave() {{
+        wrap.classList.remove("is-hovering");
+        pupils.forEach(function (p) {{
+          p.style.translate = "0px 0px";
+        }});
+      }}
+
+      wrap.addEventListener("mouseenter", function () {{
+        wrap.classList.add("is-hovering");
+      }});
+      wrap.addEventListener("mousemove", mouseMove);
+      wrap.addEventListener("mouseleave", mouseLeave);
+    }})();
+    </script>
   </body>
 </html>
 """
@@ -462,8 +527,12 @@ def site_shell(
 def render_page_body(page: Page, posts: list[Post] | None = None) -> str:
     if page.slug == "" and page.image_path:
         image_html = (
+            '<div class="headshot-wrap">'
             f'<img class="headshot" src="{html.escape(page.image_path, quote=True)}" '
             f'alt="{html.escape(page.image_alt, quote=True)}">'
+            '<span class="headshot-pupil" data-eye="left"></span>'
+            '<span class="headshot-pupil" data-eye="right"></span>'
+            "</div>"
         )
         article = [
             '<section class="home-hero">',
