@@ -19,7 +19,7 @@ At my last job we would say, "Users > Stripe > Team > Me."
 
 I quite liked this because it is simple, easy to remember, and gets the point across: we're here to serve our users first and ourselves last, and just about every decision we make as teams or individuals can be guided by or checked against that hierarchy: Am I optimizing for my team at the expense of our users? Rethink it. Am I putting myself before my team? Rethink it.
 
-Having an agreed upon hierarchy of "things we care about and in what order" makes every decision easier and makes it more likely that, in any situation, people do the right thing. 
+Having an agreed-upon hierarchy of "things we care about and in what order" makes every decision easier and makes it more likely that, in any situation, people do the right thing. 
 
 "Users > Company > Team > Me" probably generalizes well to most software companies.
 
@@ -27,13 +27,13 @@ Having an agreed upon hierarchy of "things we care about and in what order" make
 
 You can be hired or promoted into a "leadership role" but whether or not you're effective and accepted by your team comes down to how you behave: do you step up and create clarity for others when no one knows what to do? do you share a compelling vision for the future? do you energize and challenge people in pursuit of that vision? This is what separates "manager" from "leader", and the latter is the more valuable thing to be.
 
-Some of the most effective leaders I've worked with were individual contributors (non people managers) who took on the behaviors of leadership (either because there was a gap or because they were asked to). They did the things that made others want to follow them, and it didn't matter what their title was.
+Some of the most effective leaders I've worked with were individual contributors (non-people-managers) who took on the behaviors of leadership (either because there was a gap or because they were asked to). They did the things that made others want to follow them, and it didn't matter what their title was.
 
 If you want to be the leader (appointed or otherwise), you have to own it and act the part.
 
 ### You must have a point of view
 
-If you're running a team within a larger organization the organization (partner teams, peers, leadership) will put demands on your team. Asks will show up seemingly at random and with varying degrees of urgency: "I need this feature", "I found this bug", "Why isn't this metric moving?", "Can you help me with X?", etc. There will be more demands than you have time for. Many teams go through unfortunate periods where, overwhelmed by asks, they're unable to make progress on their goals.
+If you're running a team within a larger organization, the organization (partner teams, peers, leadership) will put demands on your team. Asks will show up seemingly at random and with varying degrees of urgency: "I need this feature", "I found this bug", "Why isn't this metric moving?", "Can you help me with X?", etc. There will be more demands than you have time for. Many teams go through unfortunate periods where, overwhelmed by asks, they're unable to make progress on their goals.
 
 The single best way to protect the team’s time is to have a compelling vision of the future. If you have no vision to prioritize, you’ll lose every argument about what to work on via escalation (and then your team will feel like they have no agency, no one respects them, etc. etc.) People respect a well-articulated vision (even if they disagree with it) and it will give your team space to cook.
 
@@ -45,7 +45,7 @@ However you show up is (roughly) how the team will behave. This can be hard beca
 
 ### Bias toward action
 
-The fastest and best way to learn is to take some action and see how the world responds. Some problems can be reasoned-through purely theoretically but these are rare and, in reality, the world is messy and constantly changing. Once you have a goal or objective to work toward it's almost always better to encourage thoughtful action-taking than tolerate excessive debating and hypothesizing. Sometimes it's obvious what to do, so just go and do it. Most of the time it isn't, and this is where teams can get stuck.
+The fastest and best way to learn is to take some action and see how the world responds. Some problems can be reasoned through purely theoretically but these are rare and, in reality, the world is messy and constantly changing. Once you have a goal or objective to work toward it's almost always better to encourage thoughtful action-taking than tolerate excessive debating and hypothesizing. Sometimes it's obvious what to do, so just go and do it. Most of the time it isn't, and this is where teams can get stuck.
 
 In general, teams that quickly move through the loop of "have an idea => try it out => get and incorporate feedback from the world => repeat" are more effective and make more progress (learning compounds, etc). Teams that spend a lot of time debating and analyzing underperform and get frustrated. Time is a resource that you're managing and it, unfortunately, is unceasing and limited.
 
