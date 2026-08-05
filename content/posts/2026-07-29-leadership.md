@@ -25,7 +25,7 @@ Having an agreed-upon hierarchy of "things we care about and in what order" make
 
 ### Leadership is a behavior
 
-You can be hired or promoted into a "leadership role" but whether or not you're effective and accepted by your team comes down to how you behave: do you step up and create clarity for others when no one knows what to do? do you share a compelling vision for the future? do you energize and challenge people in pursuit of that vision? This is what separates "manager" from "leader", and the latter is the more valuable thing to be.
+You can be hired or promoted into a "leadership role" but whether or not you're effective and accepted by your team comes down to how you behave: Do you step up and create clarity for others when no one knows what to do? Do you share a compelling vision for the future? Do you energize and challenge people in pursuit of that vision? This is what separates "manager" from "leader", and the latter is the more valuable thing to be.
 
 Some of the most effective leaders I've worked with were individual contributors (non-people-managers) who took on the behaviors of leadership (either because there was a gap or because they were asked to). They did the things that made others want to follow them, and it didn't matter what their title was.
 
@@ -68,13 +68,13 @@ The manager should be removed.
 this is a gradient but you get the point.
 
 Sometimes you have to trade off being liked for output. This is fine, as long as the team
-respects your judgement (which means you should try to be right more often than you’re wrong). If you aren't willing to do that it's easy to slip into #3. At the end of the day, make sure you know where you stand.
+respects your judgement (which means you should try to be right more often than you’re wrong). It's easy to slip into #3 if you aren't willing to do that. At the end of the day, make sure you know where you stand.
 
 One very cool thing about being a manager is all the ways in which you get to help people, often without them knowing it: fighting for an up level, amplifying their work, correcting some misunderstanding, suggesting them for new opportunities, etc. So much of your work will happen behind the scenes and you won’t get credit for a lot of it (especially from the people you’re quietly helping), but it is very rewarding to see it compound over years.
 
 ### Be a generator of praise
 
-Speaking of credit, always deflect any praise you get from leadership away from yourself and to your team (especially in public). People above you will understand your role & contributions. You should consider it part of your job to be a generator of praise for your reports. If they do something notable, DM or email it to a senior leader (who you know will be interested) and ask them to celebrate it. I did a ton of this in my time at Stripe. (You also end up being seen as a source of “cool stuff”, which is good for you.)
+Speaking of credit, always deflect any praise you get from leadership away from yourself and to your team (especially in public). People above you will understand your role & contributions. You should consider it part of your job to be a generator of praise for your team. If they do something notable, DM or email it to a senior leader (who you know will be interested) and ask them to celebrate it. I did a ton of this in my time at Stripe. (You also end up being seen as a source of “cool stuff”, which is good for you.)
 
 ### Be a dampener of FUD (Fear, Uncertainty, and Doubt)
 
@@ -88,11 +88,11 @@ Conversely, be judicious when voicing FUD about another team's nascent work, les
 
 It can be quite crushing when someone you've hired and invested in (and have built plans around) decides to leave. Don't take it personally! Everyone leaves eventually (and so will you) so do your best to understand why, wish them well, and then move on.
 
-When it's your turn to leave, think long and hard about how you want to do it. Recency bias is a real thing and how you depart will carry heavy weight in people's memory and opinion of you. This is true in all roles but is especially true for managers where departures can have broad impact.
+When it's your turn to leave, think long and hard about how you want to do it. Recency bias is a real thing and how you depart will carry heavy weight in people's memory and opinion of you. This is true in all roles but is especially true for leaders where departures can have broad impact.
 
 ### Make sure the "good old days" are in fact good
 
-If you've been somewhere a long time you'll probably remember the early days with a certain nostalgia: things were simpler then, the eggs were hot, everything was exciting and new. It's a nice feeling to have but don't reminisce too much in front of new team members, they don't need to hear that they missed out on the good times. For them, the "good old days" are happening *right now*! It's your job to make sure they stick around long enough to look back on these days with similar nostalgia, so do what you can to make sure they are, in fact, good. (HT [ksun](https://x.com/KathyXSun) for putting this idea in my head.)
+If you've been somewhere a long time you'll probably remember the early days with a certain nostalgia: things were simpler then, the eggs were hot, everything was exciting and new. It's a nice feeling to have, but don't reminisce in front of new team members. They don't need to hear that they missed out on the good times. For them, the "good old days" are happening *right now*! It's your job to make sure they stick around long enough to look back on *these days* with similar nostalgia, so do what you can to make sure they are, in fact, good. (HT [ksun](https://x.com/KathyXSun) for putting this idea in my head.)
 
 --
 
