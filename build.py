@@ -356,6 +356,16 @@ def twitter_card(image_path: str) -> str:
     return "summary_large_image" if width >= height * 1.4 else "summary"
 
 
+def social_title(*, site: dict, title: str, page_title: str, kind: str) -> str:
+    """Headline used in link previews.
+
+    Posts share under their bare title. Networks already show the source
+    separately, and og:site_name carries it, so the " | Ian McCrystal"
+    suffix that suits a browser tab just eats headline room in a card.
+    """
+    return title if kind == "article" else page_title
+
+
 def social_tags(
     *,
     site: dict,
@@ -418,7 +428,7 @@ def site_shell(
     summary = description or site["description"]
     social = social_tags(
         site=site,
-        title=page_title,
+        title=social_title(site=site, title=title, page_title=page_title, kind=kind),
         summary=summary,
         current_path=current_path,
         image_path=image_path,
@@ -622,7 +632,7 @@ def render_redirect(
     page_title = title if title == site["name"] else f"{title} | {site['name']}"
     social = social_tags(
         site=site,
-        title=page_title,
+        title=social_title(site=site, title=title, page_title=page_title, kind=kind),
         summary=summary,
         # Point previews at the destination, not at this stub.
         current_path=target_path,
