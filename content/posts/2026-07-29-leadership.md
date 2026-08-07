@@ -29,13 +29,13 @@ You can be hired or promoted into a "leadership role" but whether or not you're 
 
 Some of the most effective leaders I've worked with were individual contributors (non-people-managers) who took on the behaviors of leadership (either because there was a gap or because they were asked to). They did the things that made others want to follow them, and it didn't matter what their title was.
 
-If you want to be the leader (appointed or otherwise), you have to own it and act the part.
+If you want to be the leader, appointed or otherwise, you have to own it and act the part.
 
 ### You must have a point of view
 
 If you're running a team within a larger organization, the organization (partner teams, peers, leadership) will put demands on your team. Asks will show up seemingly at random and with varying degrees of urgency: "I need this feature", "I found this bug", "Why isn't this metric moving?", "Can you help me with X?", etc. There will be more demands than you have time for. Many teams go through unfortunate periods where, overwhelmed by asks, they're unable to make progress on their goals.
 
-The single best way to protect the team’s time is to have a compelling vision of the future. If you have no vision to prioritize, you’ll lose every argument about what to work on via escalation (and then your team will feel like they have no agency, no one respects them, etc. etc.) People respect a well-articulated vision (even if they disagree with it) and it will give your team space to cook.
+The single best way to protect the team’s time is to have a compelling vision of the future. If you have no vision to prioritize, you’ll lose every argument about what to work on via escalation (and then your team will feel like they have no agency, no one respects them, etc. etc.) People respect a well-articulated vision (even if they disagree with it), and that gives your team space to cook.
 
 At the end of the day, you are accountable for the collective output of the team. If the team isn’t performing well, that’s on you. If the team isn’t shipping things the company cares about, that’s also on you.
 
