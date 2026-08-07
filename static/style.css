@@ -219,6 +219,58 @@ pre code {
   opacity: 1;
 }
 
+.headshot-laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0.16rem;
+  width: 0;
+  border-radius: 999px;
+  background: #ff2638;
+  box-shadow: 0 0 0.18rem 0.08rem rgba(255, 38, 56, 0.85);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  transform: rotate(var(--laser-angle)) scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.headshot-laser::after {
+  position: absolute;
+  top: 25%;
+  right: 0;
+  bottom: 25%;
+  left: 0;
+  border-radius: inherit;
+  background: #fff;
+  content: "";
+}
+
+.headshot-wrap.is-lasing .headshot-laser {
+  animation: headshot-laser-shoot 0.3s ease-out forwards;
+}
+
+@keyframes headshot-laser-shoot {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--laser-angle)) scaleX(0);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  65% {
+    opacity: 1;
+    transform: rotate(var(--laser-angle)) scaleX(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotate(var(--laser-angle)) scaleX(1);
+  }
+}
+
 .post-list,
 .entries {
   margin-top: 2.5rem;

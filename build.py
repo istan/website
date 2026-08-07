@@ -476,6 +476,7 @@ def site_shell(
       var wrap = document.querySelector(".headshot-wrap");
       if (!wrap) return;
       var pupils = wrap.querySelectorAll(".headshot-pupil");
+      var lasers = wrap.querySelectorAll(".headshot-laser");
       if (!pupils.length || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
       function imgToFrac(ix, iy) {{
@@ -490,6 +491,7 @@ def site_shell(
       }}
 
       var base = {{}};
+      var offsets = {{ left: {{ x: 0, y: 0 }}, right: {{ x: 0, y: 0 }} }};
       pupils.forEach(function (p) {{
         var e = EYES[p.getAttribute("data-eye")];
         if (!e) return;
@@ -512,14 +514,46 @@ def site_shell(
           var dy = ev.clientY - (r.top + e.fy * r.height);
           var len = Math.hypot(dx, dy) || 1;
           var t = Math.min(1, MAX_MOVE / len);
-          p.style.translate = (dx * t) + "px " + (dy * t) + "px";
+          var name = p.getAttribute("data-eye");
+          offsets[name] = {{ x: dx * t, y: dy * t }};
+          p.style.translate = offsets[name].x + "px " + offsets[name].y + "px";
         }});
       }}
       function mouseLeave() {{
         wrap.classList.remove("is-hovering");
+        wrap.classList.remove("is-lasing");
         pupils.forEach(function (p) {{
+          offsets[p.getAttribute("data-eye")] = {{ x: 0, y: 0 }};
           p.style.translate = "0px 0px";
         }});
+      }}
+
+      var laserTimer;
+      function fireLasers(ev) {{
+        var r = wrap.getBoundingClientRect();
+        var targetX = ev.clientX - r.left;
+        var targetY = ev.clientY - r.top;
+        lasers.forEach(function (laser) {{
+          var name = laser.getAttribute("data-eye");
+          var eye = base[name];
+          var offset = offsets[name] || {{ x: 0, y: 0 }};
+          if (!eye) return;
+          var originX = eye.fx * r.width + offset.x;
+          var originY = eye.fy * r.height + offset.y;
+          var dx = targetX - originX;
+          var dy = targetY - originY;
+          laser.style.left = originX + "px";
+          laser.style.top = originY + "px";
+          laser.style.width = Math.hypot(dx, dy) + "px";
+          laser.style.setProperty("--laser-angle", Math.atan2(dy, dx) + "rad");
+        }});
+        wrap.classList.remove("is-lasing");
+        void wrap.offsetWidth;
+        wrap.classList.add("is-lasing");
+        clearTimeout(laserTimer);
+        laserTimer = setTimeout(function () {{
+          wrap.classList.remove("is-lasing");
+        }}, 600);
       }}
 
       wrap.addEventListener("mouseenter", function () {{
@@ -527,6 +561,7 @@ def site_shell(
       }});
       wrap.addEventListener("mousemove", mouseMove);
       wrap.addEventListener("mouseleave", mouseLeave);
+      wrap.addEventListener("click", fireLasers);
     }})();
     </script>
   </body>
@@ -542,6 +577,8 @@ def render_page_body(page: Page, posts: list[Post] | None = None) -> str:
             f'alt="{html.escape(page.image_alt, quote=True)}">'
             '<span class="headshot-pupil" data-eye="left"></span>'
             '<span class="headshot-pupil" data-eye="right"></span>'
+            '<span class="headshot-laser" data-eye="left"></span>'
+            '<span class="headshot-laser" data-eye="right"></span>'
             "</div>"
         )
         article = [
