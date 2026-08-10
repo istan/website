@@ -341,5 +341,6 @@ pre code {
 
   .headshot-wrap {
     max-width: 13rem;
+    margin-top: -0.5rem;
   }
 }
