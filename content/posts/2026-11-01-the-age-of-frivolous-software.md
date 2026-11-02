@@ -10,6 +10,7 @@ Every four years I spend as much time as I can doing one thing: watching the Wor
 Here I am on June 11th at the Berkeley Greek Theater watching an early group stage game with a friend (South Korea defeated Czechia 2-1; a great game), James Blake is playing somewhere out of frame to the right. 
 
 ![Watching a World Cup match at the Berkeley Greek Theater](/assets/frivolous-software-world-cup.png)
+{:.compact-image}
 
 I love the sport and enthusiastically endorse it's sometimes-sneered-at alt moniker, "the beautiful game", but, more than that, I *love* the World Cup specifically, and how it brings so much of the world together in (mostly) good natured competitive revelry and celebration of national pride. It's a wonderful event and a great periodic reminder that we're all humans and can have fun together even when on opposing sides. People travel from all around the world for it and I consistently meet and have more fun with strangers during the World Cup than at any other event in my life: it really is just peak humanity in my opinion.
 
@@ -20,6 +21,7 @@ Concurrently with the start of the World Cup our friends at Anthropic were relea
 A live-updating, information-dense, no-bullshit[0] World Cup dashboard with scores, live match details, win probabilities, group standings, etc. 
 
 ![The World Cup dashboard showing matches and tournament standings](/assets/frivolous-software-dashboard.jpeg)
+{:.compact-image}
 
 
 I wanted it to be fast, mobile-friendly, easy to use and fun for users (me). It should never be annoying. I can look at it at any time and get a snapshot of how the tournament is going and what is upcoming.
@@ -43,6 +45,7 @@ This was one of the most fun parts of the project: near-real-time discovery, imp
 
 
 ![The World Cup dashboard in its Roman theme](/assets/frivolous-software-roman.jpeg)
+{:.compact-image}
 
 
 
@@ -50,5 +53,6 @@ In some sense this entire project was frivolous, and that's what's so cool about
 
 
 ![The dashboard’s retro football game showing Morocco scoring against the Netherlands](/assets/frivolous-software-finale.jpeg)
+{:.compact-image}
 
 [0] well, a little bullshit but it was always for fun and hidden behind a click or two
