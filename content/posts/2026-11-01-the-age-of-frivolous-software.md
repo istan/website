@@ -50,9 +50,9 @@ This was one of the most fun parts of the project: near-real-time discovery, imp
 
 
 
-In some sense this entire project was frivolous, and that's what's so great about it! Four years ago I would not have built World Cup Dash. I might have had the idea, but I would have suffered through using the annoying-but-already-available and, on some deeply unsatisfying level, "good enough" websites because it would have been too costly in my time and brainpower to build a just-for-me, just-for-fun, entirely customized to my idiosyncrasies and sense of humor, World Cup website. Even just setting up the infrastructure would have been annoying enough to block me. But, as of the 2026 World Cup (and surely more so now), the tools exist such that every fun web idea previously dismissed as frivolous and not worth the time is back on the table and, even if you're building purely for yourself, it might turn out 50,000 other people out there want what you have to offer. And how cool is that? We've entered a new age of frivolous software, and I love it.
+In some sense this entire project was frivolous, and that's what's so great about it! Four years ago I would not have built World Cup Dash. I might have had the idea, but I would have suffered through using the annoying-but-already-available and, on some deeply unsatisfying level, "good enough" websites because it would have been too costly in my time and brainpower to build a just-for-me, just-for-fun, entirely customized to my idiosyncrasies and sense of humor, World Cup website. Even just setting up the infrastructure would have been annoying enough to block me. But, as of the 2026 World Cup (and surely more so now), the tools exist such that every fun web idea previously dismissed as frivolous and not worth the time is back on the table and, even if you're building purely for yourself, it might turn out 50,000 other people out there want what you have to offer. And how cool is that? We've entered the age of frivolous software, and I love it.
 
-(And yes, eventually I added a playable NES-style penalty shoot-out game.)
+*And yes, eventually I added a playable NES-style penalty shoot-out mini game:*
 
 ![The dashboard’s retro football game showing Morocco scoring against the Netherlands](/assets/frivolous-software-finale.jpeg)
 {:.compact-image}
