@@ -638,7 +638,7 @@ def render_writing_index(posts: Iterable[Post]) -> str:
     return f"""
 <section>
   <h1>Writing</h1>
-  <p>A running archive of notes, essays, and whatever else felt worth jotting down.</p>
+  <p>Notes, essays, and whatever else comes to mind. Hand-written; no AI beyond simple grammar checking and proofreading.</p>
   <ul class="entries">
     {items}
   </ul>
